@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -30,20 +32,19 @@ select {
 
 .pixel-title {
   color: #1c1917;
-  font-family: "SFMono-Regular", "Monaco", "Consolas", "Liberation Mono",
-    "Courier New", monospace;
-  font-size: 1.875rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.45;
   text-rendering: geometricPrecision;
   text-transform: none;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: unset;
   -webkit-font-smoothing: none;
 }
 
 @media (max-width: 480px) {
   .pixel-title {
-    font-size: 1.45rem;
+    font-size: 1rem;
   }
 }
