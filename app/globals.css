@@ -28,25 +28,22 @@ select {
   font: inherit;
 }
 
-.dos-title {
-  display: inline-block;
-  border: 2px solid #17a84a;
-  border-radius: 4px;
-  background: #050805;
-  padding: 0.55rem 0.75rem;
-  color: #7dff91;
+.pixel-title {
+  color: #1c1917;
   font-family: "SFMono-Regular", "Monaco", "Consolas", "Liberation Mono",
     "Courier New", monospace;
   font-size: 1.875rem;
-  font-weight: 700;
-  letter-spacing: 0;
-  line-height: 1.15;
-  text-transform: uppercase;
-  box-shadow: 4px 4px 0 #17a84a;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-rendering: geometricPrecision;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: none;
 }
 
 @media (max-width: 480px) {
-  .dos-title {
+  .pixel-title {
     font-size: 1.45rem;
   }
 }
