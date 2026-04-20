@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { buildAnalysisPrompt } from "@/lib/prompt";
 import {
   type AnalyzeRequest,
+  type AnalysisResult,
   isAnalysisMode,
   isAnalysisResult,
 } from "@/lib/types";
@@ -56,16 +57,57 @@ function validateRequest(body: unknown): AnalyzeRequest | null {
   };
 }
 
+function buildLocalAnalysis(input: AnalyzeRequest): AnalysisResult {
+  const decision = input.decision;
+  const shortDecision =
+    decision.length > 72 ? `${decision.slice(0, 69).trim()}...` : decision;
+
+  const modeNote =
+    input.mode === "Critical"
+      ? "The main value is in stress-testing the reasoning before committing time."
+      : input.mode === "Practical"
+        ? "The main value is in turning this into a small, testable next step."
+        : input.mode === "Fast check"
+          ? "This is worth a quick check before spending serious time on it."
+          : "This looks reasonable only if the expected payoff is clear enough to justify the time.";
+
+  return {
+    title: `Decision check: ${shortDecision}`,
+    overall_assessment: `${modeNote} The decision should be judged by its expected usefulness, the opportunity cost, and whether it solves a current problem rather than just feeling generally worthwhile.`,
+    strengths: [
+      "It can create clarity if the material directly connects to a current goal or gap.",
+      "It is low-risk if you timebox it and define what useful output should look like.",
+      "It may expose blind spots that are hard to notice through routine work alone.",
+    ],
+    risks: [
+      "The activity can become passive consumption if there is no concrete question to answer.",
+      "It may compete with higher-value work if the timing or expected payoff is vague.",
+      "The source may be too broad, outdated, or mismatched to your actual QA needs.",
+    ],
+    assumptions: [
+      "The material is relevant to the decisions or skills you need right now.",
+      "Reading it will change behavior, not just increase familiarity.",
+      "You have enough time to extract and apply the useful parts.",
+    ],
+    improvements: [
+      "Define one specific reason for reading it before starting.",
+      "Timebox the first pass and stop if it does not answer a real question.",
+      "Write down three actionable takeaways and one thing you will test in practice.",
+    ],
+    alternatives: [
+      "Skim the table of contents first and only read the most relevant sections.",
+      "Ask a QA peer which parts are actually useful before committing more time.",
+      "Use the same time to solve one concrete QA problem and consult the material only when blocked.",
+    ],
+    hard_questions: [
+      "What exact decision or skill gap should this reading help with?",
+      "What would make you stop reading after 20 minutes?",
+      "What will you do differently if the material is useful?",
+    ],
+  };
+}
+
 export async function POST(request: Request) {
-  const apiKey = process.env.OPENAI_API_KEY;
-
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: "Missing OPENAI_API_KEY on the server." },
-      { status: 500 },
-    );
-  }
-
   let body: unknown;
 
   try {
@@ -81,6 +123,12 @@ export async function POST(request: Request) {
       { error: "Provide a decision, context, and valid analysis mode." },
       { status: 400 },
     );
+  }
+
+  const apiKey = process.env.OPENAI_API_KEY;
+
+  if (!apiKey) {
+    return NextResponse.json({ result: buildLocalAnalysis(input) });
   }
 
   try {
