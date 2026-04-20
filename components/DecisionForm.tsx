@@ -1,7 +1,7 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
-import { analysisModes, type AnalysisMode } from "@/lib/types";
+import type { AnalysisMode } from "@/lib/types";
 
 type DecisionFormProps = {
   onSubmit: (input: {
@@ -19,7 +19,6 @@ const sampleDecision =
 export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps) {
   const [decision, setDecision] = useState("");
   const [context, setContext] = useState("");
-  const [mode, setMode] = useState<AnalysisMode>("Balanced");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,14 +26,13 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
     await onSubmit({
       decision: decision.trim(),
       context: context.trim(),
-      mode,
+      mode: "Critical",
     });
   }
 
   function handleClear() {
     setDecision("");
     setContext("");
-    setMode("Balanced");
     onClear();
   }
 
@@ -67,24 +65,6 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
           rows={3}
           className="w-full resize-y rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
         />
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="mode" className="block text-sm font-medium text-stone-900">
-          Analysis mode
-        </label>
-        <select
-          id="mode"
-          value={mode}
-          onChange={(event) => setMode(event.target.value as AnalysisMode)}
-          className="w-full rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
-        >
-          {analysisModes.map((analysisMode) => (
-            <option key={analysisMode} value={analysisMode}>
-              {analysisMode}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">
