@@ -29,9 +29,9 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="space-y-2">
-        <label htmlFor="decision" className="block text-sm font-medium text-stone-900">
+    <form onSubmit={handleSubmit} className="space-y-7">
+      <div className="space-y-4">
+        <label htmlFor="decision" className="block font-mono text-xl text-cyan-200">
           What decision are you considering?
         </label>
         <textarea
@@ -41,7 +41,7 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
           placeholder={sampleDecision}
           rows={6}
           required
-          className="min-h-44 w-full resize-y rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
+          className="terminal-input min-h-52 w-full resize-y rounded-xl border border-cyan-400/40 bg-zinc-950 px-4 py-4 text-emerald-100 outline-none transition focus:border-emerald-300 focus:ring-2 focus:ring-emerald-300/20"
         />
       </div>
 
@@ -49,7 +49,7 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
         <button
           type="submit"
           disabled={isLoading}
-          className="rounded bg-stone-950 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-400"
+          className="group rounded-2xl border-2 border-emerald-300 bg-black px-10 py-4 font-mono text-lg font-bold uppercase tracking-[0.18em] text-emerald-300 transition hover:bg-emerald-300/15 hover:text-white disabled:cursor-not-allowed disabled:border-zinc-600 disabled:text-zinc-500 sm:px-16"
         >
           {isLoading ? "Critiquing..." : "Critique"}
         </button>

@@ -62,14 +62,17 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-12">
-      <header className="space-y-2 text-center">
+    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col justify-center gap-8 px-4 py-8 sm:px-6 sm:py-12">
+      <header className="space-y-3 text-center">
         <h1 className="pixel-title">
           Decision Debugger
         </h1>
+        <p className="font-mono text-sm uppercase tracking-[0.28em] text-purple-300 sm:text-base">
+          AI-powered decision critique
+        </p>
       </header>
 
-      <section className="rounded border border-stone-200 bg-white p-4 sm:p-6">
+      <section className="cyber-panel scanline rounded-2xl p-5 sm:p-8">
         <DecisionForm
           onSubmit={handleAnalyze}
           isLoading={isLoading}
