@@ -14,6 +14,15 @@ const modeGuidance: Record<AnalysisMode, string> = {
   "Fast check": "Be brief. Surface the highest-leverage concerns and the next useful question.",
 };
 
+const languageRules: Record<string, string> = {
+  Ukrainian:
+    "Respond only in Ukrainian. Do not use Russian words, Russian grammar, or Russian phrasing. If the input is Cyrillic and ambiguous, choose Ukrainian.",
+  Russian:
+    "Respond only in Russian. Do not switch to Ukrainian or English.",
+  English:
+    "Respond only in English. Do not switch to another language.",
+};
+
 export function buildAnalysisPrompt({
   decision,
   context,
@@ -25,7 +34,7 @@ You are Decision Debugger, a structured decision analysis tool. This is not a ch
 
 Analyze the user's decision critically but fairly. Do not be overly agreeable. Do not flatter, motivate, or write generic advice.
 
-Respond in ${responseLanguage}. Use the same language as the user's decision and context. If the user mixes languages, use the dominant language.
+Language requirement: ${languageRules[responseLanguage] ?? `Respond only in ${responseLanguage}.`}
 
 Tone:
 - concise
@@ -62,6 +71,6 @@ Rules:
 - overall_assessment must be a paragraph string, not a list.
 - Do not use markdown syntax inside strings.
 - If context is thin, say what is uncertain instead of inventing facts.
-- All user-facing text inside JSON values must be in ${responseLanguage}.
+- All user-facing text inside JSON values must satisfy the language requirement exactly.
 `.trim();
 }

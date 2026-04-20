@@ -58,14 +58,33 @@ function validateRequest(body: unknown): AnalyzeRequest | null {
 }
 
 function detectResponseLanguage(input: AnalyzeRequest) {
-  const text = `${input.decision} ${input.context}`;
+  const text = `${input.decision} ${input.context}`.toLowerCase();
 
-  if (/[іїєґІЇЄҐ]/.test(text)) {
+  const ukrainianMarkers = [
+    /[іїєґ]/g,
+    /\b(чи|що|як|який|яка|яке|які|мені|треба|потрібно|потрібен|потрібна|потрібні|можна|варто|краще|буде|якщо|щоб|для|про|це|цей|ця|цю|ці|його|її|їх|від|після|перед|зараз|дуже|ще|або|але|тому|мій|моя|моє|мої|твій|твоя|твоє|твої)\b/g,
+  ];
+  const russianMarkers = [
+    /[ёъыэ]/g,
+    /\b(ли|что|как|какой|какая|какое|какие|мне|надо|нужно|нужен|нужна|нужны|можно|стоит|лучше|будет|если|чтобы|для|про|это|этот|эта|эту|эти|его|ее|их|от|после|перед|сейчас|очень|еще|или|но|поэтому|мой|моя|мое|мои|твой|твоя|твое|твои)\b/g,
+  ];
+
+  const countMatches = (patterns: RegExp[]) =>
+    patterns.reduce((total, pattern) => total + (text.match(pattern)?.length ?? 0), 0);
+
+  const ukrainianScore = countMatches(ukrainianMarkers);
+  const russianScore = countMatches(russianMarkers);
+
+  if (ukrainianScore > russianScore) {
     return "Ukrainian";
   }
 
-  if (/[а-яА-ЯёЁ]/.test(text)) {
+  if (russianScore > ukrainianScore) {
     return "Russian";
+  }
+
+  if (/[а-яё]/i.test(text)) {
+    return "Ukrainian";
   }
 
   return "English";
