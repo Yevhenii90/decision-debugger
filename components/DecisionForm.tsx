@@ -17,14 +17,13 @@ const sampleDecision =
 
 export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
   const [decision, setDecision] = useState("");
-  const [context, setContext] = useState("");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     await onSubmit({
       decision: decision.trim(),
-      context: context.trim(),
+      context: "",
       mode: "Critical",
     });
   }
@@ -43,20 +42,6 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
           rows={6}
           required
           className="min-h-44 w-full resize-y rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label htmlFor="context" className="block text-sm font-medium text-stone-900">
-          Context
-        </label>
-        <textarea
-          id="context"
-          value={context}
-          onChange={(event) => setContext(event.target.value)}
-          placeholder="Optional details: constraints, timing, budget, people affected, what you have already tried."
-          rows={3}
-          className="w-full resize-y rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
         />
       </div>
 

@@ -4,7 +4,7 @@ A minimal structured decision analysis tool built with Next.js, React, TypeScrip
 
 ## What It Does
 
-- Accepts a decision and optional context.
+- Accepts a decision to critique.
 - Lets the user choose an analysis mode: Balanced, Critical, Practical, or Fast check.
 - Calls `/api/analyze` for a structured LLM response.
 - Validates the JSON response before rendering.
