@@ -41,7 +41,7 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
-        <label htmlFor="decision" className="block text-sm font-medium text-[#7dff91]">
+        <label htmlFor="decision" className="block text-sm font-medium text-stone-900">
           What decision are you considering?
         </label>
         <textarea
@@ -51,12 +51,12 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
           placeholder={sampleDecision}
           rows={6}
           required
-          className="min-h-44 w-full resize-y rounded border border-[#1f7a36] bg-[#020502] px-3 py-3 text-base text-[#b8ffc2] outline-none transition placeholder:text-[#798a61] focus:border-[#d6b85a] focus:ring-2 focus:ring-[#d6b85a]/20"
+          className="min-h-44 w-full resize-y rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
         />
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="context" className="block text-sm font-medium text-[#7dff91]">
+        <label htmlFor="context" className="block text-sm font-medium text-stone-900">
           Context
         </label>
         <textarea
@@ -65,19 +65,19 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
           onChange={(event) => setContext(event.target.value)}
           placeholder="Optional details: constraints, timing, budget, people affected, what you have already tried."
           rows={3}
-          className="w-full resize-y rounded border border-[#1f7a36] bg-[#020502] px-3 py-3 text-base text-[#b8ffc2] outline-none transition placeholder:text-[#798a61] focus:border-[#d6b85a] focus:ring-2 focus:ring-[#d6b85a]/20"
+          className="w-full resize-y rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
         />
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="mode" className="block text-sm font-medium text-[#7dff91]">
+        <label htmlFor="mode" className="block text-sm font-medium text-stone-900">
           Analysis mode
         </label>
         <select
           id="mode"
           value={mode}
           onChange={(event) => setMode(event.target.value as AnalysisMode)}
-          className="w-full rounded border border-[#1f7a36] bg-[#020502] px-3 py-3 text-base text-[#b8ffc2] outline-none transition focus:border-[#d6b85a] focus:ring-2 focus:ring-[#d6b85a]/20"
+          className="w-full rounded border border-stone-300 bg-white px-3 py-3 text-base text-stone-950 outline-none transition focus:border-stone-700 focus:ring-2 focus:ring-stone-200"
         >
           {analysisModes.map((analysisMode) => (
             <option key={analysisMode} value={analysisMode}>
@@ -91,7 +91,7 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
         <button
           type="submit"
           disabled={isLoading}
-          className="rounded border border-[#d6b85a] bg-[#d6b85a] px-4 py-3 text-sm font-medium text-[#050805] transition hover:bg-[#f0cf66] disabled:cursor-not-allowed disabled:border-[#44513a] disabled:bg-[#44513a] disabled:text-[#101810]"
+          className="rounded bg-stone-950 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-400"
         >
           {isLoading ? "Analyzing..." : "Analyze"}
         </button>
@@ -99,7 +99,7 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
           type="button"
           onClick={handleClear}
           disabled={isLoading}
-          className="rounded border border-[#1f7a36] px-4 py-3 text-sm font-medium text-[#7dff91] transition hover:bg-[#0d1f0d] disabled:cursor-not-allowed disabled:text-[#44513a]"
+          className="rounded border border-stone-300 px-4 py-3 text-sm font-medium text-stone-900 transition hover:bg-stone-100 disabled:cursor-not-allowed disabled:text-stone-400"
         >
           Clear
         </button>

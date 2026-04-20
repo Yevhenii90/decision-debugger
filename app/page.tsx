@@ -112,14 +112,14 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center gap-8 px-4 py-8 sm:px-6 sm:py-12">
-      <header className="w-full space-y-2 text-center">
-        <h1 className="text-3xl font-semibold text-[#7dff91]">
+    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-12">
+      <header className="space-y-2">
+        <h1 className="text-3xl font-semibold tracking-tight text-stone-950">
           Decision Debugger
         </h1>
       </header>
 
-      <section className="w-full rounded border border-[#1f7a36] bg-[#071007] p-4 shadow-[0_0_0_1px_#0b2c14] sm:p-6">
+      <section className="rounded border border-stone-200 bg-white p-4 sm:p-6">
         <DecisionForm
           onSubmit={handleAnalyze}
           onClear={handleClear}
