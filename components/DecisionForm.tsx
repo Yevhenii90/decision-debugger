@@ -66,7 +66,7 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
           disabled={isLoading}
           className="rounded bg-stone-950 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-400"
         >
-          {isLoading ? "Analyzing..." : "Analyze"}
+          {isLoading ? "Critiquing..." : "Critique"}
         </button>
       </div>
     </form>

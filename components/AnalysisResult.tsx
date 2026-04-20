@@ -76,7 +76,7 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
 
       {isLoading ? (
         <p role="status" className="text-sm text-stone-600">
-          Analyzing...
+          Critiquing...
         </p>
       ) : null}
 
