@@ -54,16 +54,16 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
   }
 
   return (
-    <section aria-labelledby="result-heading" className="border-t border-stone-200 pt-8">
+    <section aria-labelledby="result-heading" className="w-full border-t border-[#1f7a36] pt-8">
       <div className="mb-4 flex items-center justify-between gap-4">
-        <h2 id="result-heading" className="text-lg font-semibold text-stone-950">
+        <h2 id="result-heading" className="text-lg font-semibold text-[#7dff91]">
           Analysis result
         </h2>
         {result ? (
           <button
             type="button"
             onClick={copyResult}
-            className="rounded border border-stone-300 px-3 py-2 text-sm font-medium text-stone-900 transition hover:bg-stone-100"
+            className="rounded border border-[#1f7a36] px-3 py-2 text-sm font-medium text-[#7dff91] transition hover:bg-[#0d1f0d]"
           >
             Copy result
           </button>
@@ -71,19 +71,19 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
       </div>
 
       {isLoading ? (
-        <p role="status" className="text-sm text-stone-600">
+        <p role="status" className="text-sm text-[#d6b85a]">
           Analyzing...
         </p>
       ) : null}
 
       {error ? (
-        <p role="alert" className="rounded border border-red-200 bg-red-50 px-3 py-3 text-sm text-red-800">
+        <p role="alert" className="rounded border border-[#b84d4d] bg-[#190707] px-3 py-3 text-sm text-[#ff8f8f]">
           {error}
         </p>
       ) : null}
 
       {!isLoading && !error && !result ? (
-        <p className="text-sm text-stone-600">
+        <p className="text-sm text-[#9fbf92]">
           Enter a decision to see a structured analysis here.
         </p>
       ) : null}
@@ -91,15 +91,15 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
       {result ? (
         <article className="space-y-6">
           <div className="space-y-2">
-            <h3 className="text-xl font-semibold text-stone-950">{result.title}</h3>
-            <p className="leading-7 text-stone-800">{result.overall_assessment}</p>
+            <h3 className="text-xl font-semibold text-[#d6b85a]">{result.title}</h3>
+            <p className="leading-7 text-[#b8ffc2]">{result.overall_assessment}</p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             {sections.map(({ key, label }) => (
-              <section key={key} className="rounded border border-stone-200 p-4">
-                <h4 className="mb-3 text-sm font-semibold text-stone-950">{label}</h4>
-                <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-stone-800">
+              <section key={key} className="rounded border border-[#1f7a36] bg-[#071007] p-4">
+                <h4 className="mb-3 text-sm font-semibold text-[#7dff91]">{label}</h4>
+                <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-[#b8ffc2]">
                   {result[key].map((item) => (
                     <li key={item}>{item}</li>
                   ))}

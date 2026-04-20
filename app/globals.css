@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 * {
@@ -12,18 +12,31 @@
 
 html {
   min-height: 100%;
-  background: #fafaf9;
+  background: #050805;
 }
 
 body {
   min-height: 100%;
   margin: 0;
-  background: #fafaf9;
-  color: #1c1917;
+  background: #050805;
+  color: #7dff91;
+  font-family: "SFMono-Regular", "Monaco", "Consolas", "Liberation Mono",
+    "Courier New", monospace;
+  text-rendering: geometricPrecision;
 }
 
 button,
 textarea,
 select {
   font: inherit;
+}
+
+textarea,
+select {
+  caret-color: #7dff91;
+}
+
+::selection {
+  background: #7dff91;
+  color: #050805;
 }
