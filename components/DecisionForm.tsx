@@ -60,7 +60,7 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
         />
       </div>
 
-      <div className="flex flex-col gap-3 sm:flex-row">
+      <div className="flex justify-center">
         <button
           type="submit"
           disabled={isLoading}
