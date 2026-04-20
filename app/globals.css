@@ -27,3 +27,26 @@ textarea,
 select {
   font: inherit;
 }
+
+.dos-title {
+  display: inline-block;
+  border: 2px solid #17a84a;
+  border-radius: 4px;
+  background: #050805;
+  padding: 0.55rem 0.75rem;
+  color: #7dff91;
+  font-family: "SFMono-Regular", "Monaco", "Consolas", "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.15;
+  text-transform: uppercase;
+  box-shadow: 4px 4px 0 #17a84a;
+}
+
+@media (max-width: 480px) {
+  .dos-title {
+    font-size: 1.45rem;
+  }
+}
