@@ -57,7 +57,21 @@ function validateRequest(body: unknown): AnalyzeRequest | null {
   };
 }
 
-function buildLocalAnalysis(input: AnalyzeRequest): AnalysisResult {
+function detectResponseLanguage(input: AnalyzeRequest) {
+  const text = `${input.decision} ${input.context}`;
+
+  if (/[іїєґІЇЄҐ]/.test(text)) {
+    return "Ukrainian";
+  }
+
+  if (/[а-яА-ЯёЁ]/.test(text)) {
+    return "Russian";
+  }
+
+  return "English";
+}
+
+function buildEnglishLocalAnalysis(input: AnalyzeRequest): AnalysisResult {
   const decision = input.decision;
   const shortDecision =
     decision.length > 72 ? `${decision.slice(0, 69).trim()}...` : decision;
@@ -107,6 +121,110 @@ function buildLocalAnalysis(input: AnalyzeRequest): AnalysisResult {
   };
 }
 
+function buildUkrainianLocalAnalysis(input: AnalyzeRequest): AnalysisResult {
+  const decision = input.decision;
+  const shortDecision =
+    decision.length > 72 ? `${decision.slice(0, 69).trim()}...` : decision;
+
+  const modeNote =
+    input.mode === "Critical"
+      ? "Головна користь тут у тому, щоб перевірити логіку рішення до того, як вкладати час."
+      : input.mode === "Practical"
+        ? "Головна користь тут у тому, щоб звести рішення до малого перевірного кроку."
+        : input.mode === "Fast check"
+          ? "Це варто швидко перевірити перед тим, як витрачати більше часу."
+          : "Це має сенс лише якщо очікувана користь достатньо чітка, щоб виправдати час.";
+
+  return {
+    title: `Перевірка рішення: ${shortDecision}`,
+    overall_assessment: `${modeNote} Рішення варто оцінювати за реальною користю, альтернативною вартістю часу і тим, чи воно закриває конкретну потребу, а не просто здається корисним загалом.`,
+    strengths: [
+      "Може дати ясність, якщо матеріал прямо пов'язаний із поточною ціллю або прогалиною.",
+      "Ризик невеликий, якщо обмежити час і заздалегідь визначити корисний результат.",
+      "Може підсвітити слабкі місця, які важко помітити у звичній роботі.",
+    ],
+    risks: [
+      "Це може перетворитися на пасивне читання без конкретного питання.",
+      "Час може піти з більш важливих задач, якщо очікувана користь нечітка.",
+      "Матеріал може бути занадто широким, застарілим або не підходити до твоїх QA-задач.",
+    ],
+    assumptions: [
+      "Матеріал справді релевантний навичкам або рішенням, які потрібні зараз.",
+      "Читання змінить дії, а не лише додасть відчуття обізнаності.",
+      "Є достатньо часу, щоб не просто прочитати, а витягнути і застосувати висновки.",
+    ],
+    improvements: [
+      "Перед стартом сформулюй одну конкретну причину, навіщо це читати.",
+      "Обмеж перший підхід у часі і зупинись, якщо матеріал не відповідає на реальне питання.",
+      "Після читання випиши три практичні висновки і одну дію, яку перевіриш у роботі.",
+    ],
+    alternatives: [
+      "Спочатку переглянь зміст і читай тільки найрелевантніші розділи.",
+      "Запитай у QA-колеги, які частини справді варті уваги.",
+      "Використай цей час на одну конкретну QA-задачу, а матеріал відкривай тільки коли застрягнеш.",
+    ],
+    hard_questions: [
+      "Яку саме прогалину в знаннях або рішенні має закрити це читання?",
+      "Що буде сигналом зупинитися після 20 хвилин?",
+      "Що ти зробиш інакше, якщо матеріал справді виявиться корисним?",
+    ],
+  };
+}
+
+function buildRussianLocalAnalysis(input: AnalyzeRequest): AnalysisResult {
+  const decision = input.decision;
+  const shortDecision =
+    decision.length > 72 ? `${decision.slice(0, 69).trim()}...` : decision;
+
+  return {
+    title: `Проверка решения: ${shortDecision}`,
+    overall_assessment:
+      "Это решение стоит оценивать по практической пользе, альтернативной стоимости времени и тому, закрывает ли оно конкретную текущую потребность.",
+    strengths: [
+      "Может дать ясность, если материал связан с актуальной задачей или пробелом.",
+      "Риск невелик, если заранее ограничить время и определить полезный результат.",
+      "Может показать слабые места, которые трудно заметить в рутинной работе.",
+    ],
+    risks: [
+      "Чтение может стать пассивным потреблением без конкретного вопроса.",
+      "Оно может забрать время у более важных задач, если польза неясна.",
+      "Материал может быть слишком широким, устаревшим или не подходить к твоему контексту.",
+    ],
+    assumptions: [
+      "Материал действительно релевантен текущей цели.",
+      "Чтение изменит действия, а не только создаст ощущение осведомленности.",
+      "Есть время не только прочитать, но и применить выводы.",
+    ],
+    improvements: [
+      "Сформулируй одну конкретную причину для чтения.",
+      "Ограничь первый подход по времени.",
+      "Запиши три практических вывода и одно действие для проверки.",
+    ],
+    alternatives: [
+      "Сначала просмотри содержание и выбери только нужные разделы.",
+      "Спроси у коллеги, какие части действительно полезны.",
+      "Потрать это время на конкретную задачу, а материал используй при необходимости.",
+    ],
+    hard_questions: [
+      "Какой именно пробел должно закрыть это чтение?",
+      "Что будет сигналом остановиться через 20 минут?",
+      "Что ты сделаешь иначе, если материал окажется полезным?",
+    ],
+  };
+}
+
+function buildLocalAnalysis(input: AnalyzeRequest, responseLanguage: string): AnalysisResult {
+  if (responseLanguage === "Ukrainian") {
+    return buildUkrainianLocalAnalysis(input);
+  }
+
+  if (responseLanguage === "Russian") {
+    return buildRussianLocalAnalysis(input);
+  }
+
+  return buildEnglishLocalAnalysis(input);
+}
+
 export async function POST(request: Request) {
   let body: unknown;
 
@@ -126,9 +244,10 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
+  const responseLanguage = detectResponseLanguage(input);
 
   if (!apiKey) {
-    return NextResponse.json({ result: buildLocalAnalysis(input) });
+    return NextResponse.json({ result: buildLocalAnalysis(input, responseLanguage) });
   }
 
   try {
@@ -149,7 +268,7 @@ export async function POST(request: Request) {
           },
           {
             role: "user",
-            content: buildAnalysisPrompt(input),
+            content: buildAnalysisPrompt({ ...input, responseLanguage }),
           },
         ],
         temperature: 0.3,

@@ -4,6 +4,7 @@ type PromptInput = {
   decision: string;
   context: string;
   mode: AnalysisMode;
+  responseLanguage: string;
 };
 
 const modeGuidance: Record<AnalysisMode, string> = {
@@ -13,11 +14,18 @@ const modeGuidance: Record<AnalysisMode, string> = {
   "Fast check": "Be brief. Surface the highest-leverage concerns and the next useful question.",
 };
 
-export function buildAnalysisPrompt({ decision, context, mode }: PromptInput) {
+export function buildAnalysisPrompt({
+  decision,
+  context,
+  mode,
+  responseLanguage,
+}: PromptInput) {
   return `
 You are Decision Debugger, a structured decision analysis tool. This is not a chat.
 
 Analyze the user's decision critically but fairly. Do not be overly agreeable. Do not flatter, motivate, or write generic advice.
+
+Respond in ${responseLanguage}. Use the same language as the user's decision and context. If the user mixes languages, use the dominant language.
 
 Tone:
 - concise
@@ -54,5 +62,6 @@ Rules:
 - overall_assessment must be a paragraph string, not a list.
 - Do not use markdown syntax inside strings.
 - If context is thin, say what is uncertain instead of inventing facts.
+- All user-facing text inside JSON values must be in ${responseLanguage}.
 `.trim();
 }
