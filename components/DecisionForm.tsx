@@ -9,14 +9,13 @@ type DecisionFormProps = {
     context: string;
     mode: AnalysisMode;
   }) => Promise<void>;
-  onClear: () => void;
   isLoading: boolean;
 };
 
 const sampleDecision =
   "Should I leave my current job to join an early-stage startup?";
 
-export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps) {
+export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
   const [decision, setDecision] = useState("");
   const [context, setContext] = useState("");
 
@@ -28,12 +27,6 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
       context: context.trim(),
       mode: "Critical",
     });
-  }
-
-  function handleClear() {
-    setDecision("");
-    setContext("");
-    onClear();
   }
 
   return (
@@ -74,14 +67,6 @@ export function DecisionForm({ onSubmit, onClear, isLoading }: DecisionFormProps
           className="rounded bg-stone-950 px-4 py-3 text-sm font-medium text-white transition hover:bg-stone-800 disabled:cursor-not-allowed disabled:bg-stone-400"
         >
           {isLoading ? "Analyzing..." : "Analyze"}
-        </button>
-        <button
-          type="button"
-          onClick={handleClear}
-          disabled={isLoading}
-          className="rounded border border-stone-300 px-4 py-3 text-sm font-medium text-stone-900 transition hover:bg-stone-100 disabled:cursor-not-allowed disabled:text-stone-400"
-        >
-          Clear
         </button>
       </div>
     </form>

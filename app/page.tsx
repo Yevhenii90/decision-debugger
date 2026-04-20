@@ -61,11 +61,6 @@ export default function Home() {
     }
   }
 
-  function handleClear() {
-    setResult(null);
-    setError(null);
-  }
-
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-12">
       <header className="space-y-2 text-center">
@@ -77,7 +72,6 @@ export default function Home() {
       <section className="rounded border border-stone-200 bg-white p-4 sm:p-6">
         <DecisionForm
           onSubmit={handleAnalyze}
-          onClear={handleClear}
           isLoading={isLoading}
         />
       </section>
