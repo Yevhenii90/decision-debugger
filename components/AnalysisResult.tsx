@@ -53,6 +53,10 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
     await navigator.clipboard.writeText(formatResultForClipboard(result));
   }
 
+  if (!isLoading && !error && !result) {
+    return null;
+  }
+
   return (
     <section aria-labelledby="result-heading" className="border-t border-stone-200 pt-8">
       <div className="mb-4 flex items-center justify-between gap-4">
@@ -79,12 +83,6 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
       {error ? (
         <p role="alert" className="rounded border border-red-200 bg-red-50 px-3 py-3 text-sm text-red-800">
           {error}
-        </p>
-      ) : null}
-
-      {!isLoading && !error && !result ? (
-        <p className="text-sm text-stone-600">
-          Enter a decision to see a structured analysis here.
         </p>
       ) : null}
 
