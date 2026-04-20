@@ -8,8 +8,7 @@ A minimal structured decision analysis tool built with Next.js, React, TypeScrip
 - Lets the user choose an analysis mode: Balanced, Critical, Practical, or Fast check.
 - Calls `/api/analyze` for a structured LLM response.
 - Validates the JSON response before rendering.
-- Stores the last 10 successful analyses in `localStorage`.
-- Lets users reopen, delete, and copy previous results.
+- Lets users copy the current result.
 
 ## Local Setup
 

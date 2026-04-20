@@ -1,14 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnalysisResult } from "@/components/AnalysisResult";
 import { DecisionForm } from "@/components/DecisionForm";
-import { HistoryList } from "@/components/HistoryList";
-import { addHistoryItem, loadHistory, saveHistory } from "@/lib/storage";
 import {
   type AnalysisMode,
   type AnalysisResult as AnalysisResultType,
-  type HistoryItem,
   isAnalysisResult,
 } from "@/lib/types";
 
@@ -18,32 +15,10 @@ type AnalyzeInput = {
   mode: AnalysisMode;
 };
 
-function createId() {
-  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
-    return crypto.randomUUID();
-  }
-
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-}
-
 export default function Home() {
   const [result, setResult] = useState<AnalysisResultType | null>(null);
-  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const id = window.setTimeout(() => {
-      setHistory(loadHistory());
-    }, 0);
-
-    return () => window.clearTimeout(id);
-  }, []);
-
-  function updateHistory(items: HistoryItem[]) {
-    setHistory(items);
-    saveHistory(items);
-  }
 
   async function handleAnalyze(input: AnalyzeInput) {
     if (!input.decision) {
@@ -74,17 +49,7 @@ export default function Home() {
       }
 
       const nextResult = data.result;
-      const item: HistoryItem = {
-        id: createId(),
-        decision: input.decision,
-        context: input.context,
-        mode: input.mode,
-        result: nextResult,
-        createdAt: new Date().toISOString(),
-      };
-
       setResult(nextResult);
-      updateHistory(addHistoryItem(history, item));
     } catch (caughtError) {
       setError(
         caughtError instanceof Error
@@ -99,16 +64,6 @@ export default function Home() {
   function handleClear() {
     setResult(null);
     setError(null);
-  }
-
-  function handleOpenHistory(item: HistoryItem) {
-    setResult(item.result);
-    setError(null);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function handleDeleteHistory(id: string) {
-    updateHistory(history.filter((item) => item.id !== id));
   }
 
   return (
@@ -128,12 +83,6 @@ export default function Home() {
       </section>
 
       <AnalysisResult result={result} isLoading={isLoading} error={error} />
-
-      <HistoryList
-        items={history}
-        onOpen={handleOpenHistory}
-        onDelete={handleDeleteHistory}
-      />
     </main>
   );
 }

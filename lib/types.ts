@@ -18,15 +18,6 @@ export type AnalysisResult = {
   hard_questions: string[];
 };
 
-export type HistoryItem = {
-  id: string;
-  decision: string;
-  context: string;
-  mode: AnalysisMode;
-  result: AnalysisResult;
-  createdAt: string;
-};
-
 export type AnalyzeRequest = {
   decision: string;
   context: string;
