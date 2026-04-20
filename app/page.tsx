@@ -68,7 +68,7 @@ export default function Home() {
 
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col gap-8 px-4 py-8 sm:px-6 sm:py-12">
-      <header className="space-y-2">
+      <header className="space-y-2 text-center">
         <h1 className="pixel-title">
           Decision Debugger
         </h1>
