@@ -63,7 +63,7 @@ export default function Home() {
 
   return (
     <main className="cyber-grid mx-auto flex min-h-screen w-full items-center justify-center px-4 py-8 sm:px-6">
-      <div className="scanline relative z-10 mx-auto w-full max-w-5xl">
+      <div className="relative z-10 mx-auto w-full max-w-5xl">
         <header className="mb-10 text-center">
           <h1 className="pixel-title">
             Decision Debugger

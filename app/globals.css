@@ -20,7 +20,8 @@ html {
 body {
   min-height: 100%;
   margin: 0;
-  background: linear-gradient(180deg, #0a0a0a 0%, #1a0033 100%);
+  background:
+    linear-gradient(180deg, #030305 0%, #0a0a0a 18%, #140025 68%, #1a0033 100%);
   color: #ffffff;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
@@ -69,8 +70,15 @@ select {
   inset: 0;
   z-index: -1;
   content: "";
-  background: radial-gradient(circle at center, #4b0082 0%, transparent 70%);
-  opacity: 0.3;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3, 3, 5, 0.96) 0%,
+      rgba(3, 3, 5, 0.62) 7%,
+      rgba(3, 3, 5, 0) 20%
+    ),
+    radial-gradient(circle at center, rgba(75, 0, 130, 0.9) 0%, transparent 70%);
+  opacity: 0.34;
 }
 
 .glitch-soft {
@@ -98,19 +106,28 @@ select {
   }
 }
 
-.scanline {
-  position: relative;
-  overflow: hidden;
+.cyber-grid .scanline-overlay {
+  display: none;
 }
 
-.scanline > * {
+.cyber-grid > * {
   position: relative;
   z-index: 1;
 }
 
-.scanline::after {
-  position: absolute;
-  inset: -32px 0;
+.cyber-grid::before {
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.16) 9%,
+    #000 24%,
+    #000 100%
+  );
+}
+
+body::after {
+  position: fixed;
+  inset: 0;
   z-index: 0;
   content: "";
   pointer-events: none;
@@ -120,13 +137,7 @@ select {
     rgba(0, 255, 255, 0.03) 50%
   );
   background-size: 100% 4px;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    #000 56px,
-    #000 calc(100% - 56px),
-    transparent 100%
-  );
+  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 100%);
   animation: scan 4s linear infinite;
 }
 
