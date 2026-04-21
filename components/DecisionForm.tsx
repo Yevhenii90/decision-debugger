@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, type KeyboardEvent, useState } from "react";
 import type { AnalysisMode } from "@/lib/types";
 
 type DecisionFormProps = {
@@ -28,6 +28,15 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
     });
   }
 
+  function handleDecisionKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key !== "Enter" || event.shiftKey || event.metaKey || event.ctrlKey || event.altKey) {
+      return;
+    }
+
+    event.preventDefault();
+    event.currentTarget.form?.requestSubmit();
+  }
+
   return (
     <form onSubmit={handleSubmit} className="space-y-7">
       <div className="space-y-4">
@@ -38,6 +47,7 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
           id="decision"
           value={decision}
           onChange={(event) => setDecision(event.target.value)}
+          onKeyDown={handleDecisionKeyDown}
           placeholder={sampleDecision}
           rows={6}
           required
