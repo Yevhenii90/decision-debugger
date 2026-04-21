@@ -103,9 +103,15 @@ select {
   overflow: hidden;
 }
 
+.scanline > * {
+  position: relative;
+  z-index: 1;
+}
+
 .scanline::after {
   position: absolute;
-  inset: 0;
+  inset: -32px 0;
+  z-index: 0;
   content: "";
   pointer-events: none;
   background: linear-gradient(
@@ -114,6 +120,13 @@ select {
     rgba(0, 255, 255, 0.03) 50%
   );
   background-size: 100% 4px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0,
+    #000 56px,
+    #000 calc(100% - 56px),
+    transparent 100%
+  );
   animation: scan 4s linear infinite;
 }
 
