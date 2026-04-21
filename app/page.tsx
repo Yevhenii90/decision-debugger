@@ -86,14 +86,14 @@ export default function Home() {
           <aside className="lg:col-span-4">
             <div className="h-full rounded-2xl border border-purple-500/50 bg-black/70 p-6">
               <h2 className="mb-5 flex items-center gap-2 text-xl font-bold text-purple-400">
-                <span aria-hidden="true">◆</span> Debug protocol
+                <span aria-hidden="true">◆</span> How it works
               </h2>
 
               <ul className="space-y-4 text-zinc-300">
-                <li>• Critical mode locked</li>
-                <li>• Language match enabled</li>
-                <li>• Enter submits query</li>
-                <li>• Shift + Enter inserts line break</li>
+                <li>• Ask a decision question.</li>
+                <li>• Get a direct critical response.</li>
+                <li>• See risks you might be ignoring.</li>
+                <li>• Look at your idea from another angle.</li>
               </ul>
 
               <div className="mt-12 border-t border-zinc-700 pt-6">
