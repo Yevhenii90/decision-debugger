@@ -62,26 +62,62 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 py-8 sm:px-6 sm:py-12">
-      <section className="app-container p-6 sm:p-10">
-        <header className="text-center">
+    <main className="cyber-grid mx-auto flex min-h-screen w-full items-center justify-center px-4 py-8 sm:px-6">
+      <div className="scanline relative z-10 mx-auto w-full max-w-5xl">
+        <header className="mb-10 text-center">
           <h1 className="pixel-title">
             Decision Debugger
           </h1>
+          <p className="mt-2 text-2xl uppercase tracking-[0.18em] text-purple-400">
+            AI-powered decision analysis
+          </p>
         </header>
 
-        <DecisionForm
-          onSubmit={handleAnalyze}
-          isLoading={isLoading}
-        />
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <section className="lg:col-span-8">
+            <div className="rounded-2xl border border-cyan-500/50 bg-black/80 p-5 shadow-2xl shadow-cyan-500/30 backdrop-blur-xl sm:p-8">
+              <DecisionForm
+                onSubmit={handleAnalyze}
+                isLoading={isLoading}
+              />
+            </div>
+          </section>
 
-        <div className="footer-status mt-8 flex flex-col justify-between gap-2 pt-4 text-xs sm:flex-row">
-          <div>System: Decision Analysis Harmony v1.2</div>
-          <div>Status: {isLoading ? "Critiquing..." : "Waiting for input..."}</div>
+          <aside className="lg:col-span-4">
+            <div className="h-full rounded-2xl border border-purple-500/50 bg-black/70 p-6">
+              <h2 className="mb-5 flex items-center gap-2 text-xl font-bold text-purple-400">
+                <span aria-hidden="true">◆</span> Debug protocol
+              </h2>
+
+              <ul className="space-y-4 text-zinc-300">
+                <li>• Critical mode locked</li>
+                <li>• Language match enabled</li>
+                <li>• Enter submits query</li>
+                <li>• Shift + Enter inserts line break</li>
+              </ul>
+
+              <div className="mt-12 border-t border-zinc-700 pt-6">
+                <div className="mb-2 flex justify-between text-xs">
+                  <span className="text-emerald-400">SYSTEM ONLINE</span>
+                  <span className="text-emerald-400">
+                    {isLoading ? "PROCESSING" : "READY"}
+                  </span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
+                  <div className="h-full w-[98%] bg-gradient-to-r from-emerald-400 to-cyan-400" />
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
-      </section>
 
-      <AnalysisResult result={result} isLoading={isLoading} error={error} />
+        <AnalysisResult result={result} isLoading={isLoading} error={error} />
+
+        <footer className="mt-12 text-center text-sm text-zinc-500">
+          v0.8.4 • Neural debug protocol active •{" "}
+          <span className="text-cyan-400">Neon City 2077</span>
+        </footer>
+      </div>
     </main>
   );
 }

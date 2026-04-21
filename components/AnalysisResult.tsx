@@ -58,7 +58,7 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
   }
 
   return (
-    <section aria-labelledby="result-heading" className="app-container p-5 sm:p-8">
+    <section aria-labelledby="result-heading" className="mt-8 rounded-2xl border border-cyan-500/50 bg-black/80 p-5 shadow-2xl shadow-cyan-500/20 backdrop-blur-xl sm:p-8">
       <div className="mb-4 flex items-center justify-between gap-4">
         <h2 id="result-heading" className="font-mono text-xl font-semibold uppercase tracking-[0.14em] text-cyan-200">
           Analysis result
@@ -67,7 +67,7 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
           <button
             type="button"
             onClick={copyResult}
-            className="rounded border border-fuchsia-400/70 px-3 py-2 font-mono text-sm font-medium text-fuchsia-200 transition hover:bg-fuchsia-400/10"
+            className="rounded border border-purple-400/50 px-3 py-2 font-mono text-sm font-medium text-purple-200 transition hover:bg-purple-400/10"
           >
             Copy result
           </button>
@@ -81,7 +81,7 @@ export function AnalysisResult({ result, isLoading, error }: AnalysisResultProps
       ) : null}
 
       {error ? (
-        <p role="alert" className="rounded border border-fuchsia-400/40 bg-fuchsia-950/30 px-3 py-3 font-mono text-sm text-fuchsia-100">
+        <p role="alert" className="rounded border border-pink-400/40 bg-pink-950/30 px-3 py-3 font-mono text-sm text-pink-200">
           {error}
         </p>
       ) : null}

@@ -17,7 +17,6 @@ const sampleDecision =
 
 export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
   const [decision, setDecision] = useState("");
-  const wordCount = decision.trim() ? decision.trim().split(/\s+/).length : 0;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -40,10 +39,20 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="terminal-window p-5">
-        <label htmlFor="decision" className="terminal-header mb-4 block">
-          [DECISION_QUERY]&gt; What decision are you considering?
+      <div className="mb-6 flex items-center gap-3">
+        <div className="text-xl text-cyan-400" aria-hidden="true">
+          ◈
+        </div>
+        <label htmlFor="decision" className="text-2xl font-medium text-white">
+          What are you considering?
         </label>
+      </div>
+
+      <div className="relative overflow-hidden rounded-xl border border-cyan-400/30 bg-zinc-950 p-6 font-mono text-lg">
+        <div className="mb-2 flex gap-4 text-emerald-400">
+          <span className="text-zinc-500">01</span>
+          <span>{"{"}</span>
+        </div>
         <textarea
           id="decision"
           value={decision}
@@ -52,24 +61,24 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
           placeholder={sampleDecision}
           rows={6}
           required
-          className="terminal-input w-full border-0 bg-transparent outline-none"
+          className="terminal-input min-h-36 w-full resize-y border-0 bg-transparent pl-8 text-cyan-100 outline-none"
         />
+        <div className="mt-4 flex gap-4 text-emerald-400">
+          <span className="text-zinc-500">02</span>
+          <span>{"}"}</span>
+        </div>
       </div>
 
-      <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
+      <div className="mt-8 flex justify-center">
         <button
           type="submit"
           disabled={isLoading}
-          className="btn-critique bg-transparent px-10 py-4 uppercase transition disabled:cursor-not-allowed disabled:border-zinc-600 disabled:text-zinc-500 disabled:shadow-none"
+          className="btn-critique flex items-center gap-4 rounded-2xl border-2 border-emerald-400 bg-black px-10 py-5 text-xl font-bold uppercase tracking-[0.18em] text-emerald-400 transition-all hover:scale-105 hover:text-white active:scale-95 disabled:cursor-not-allowed disabled:border-zinc-600 disabled:text-zinc-500 sm:px-16 sm:py-6 sm:text-2xl"
         >
-          {isLoading ? "Critiquing..." : "Critique"}
+          <span className="relative z-10">
+            {isLoading ? "Critiquing..." : "⚡ Critique"}
+          </span>
         </button>
-
-        <div className="text-center text-sm leading-6 text-zinc-500 sm:text-right">
-          Word count: <span className="text-cyan-300">{wordCount}</span><br />
-          Grammar check: <span className="text-cyan-300">Confirmed</span><br />
-          Critique engine: <span className="text-cyan-300">Preliminary Alpha (Ready)</span>
-        </div>
       </div>
     </form>
   );
