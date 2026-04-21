@@ -17,6 +17,7 @@ const sampleDecision =
 
 export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
   const [decision, setDecision] = useState("");
+  const wordCount = decision.trim() ? decision.trim().split(/\s+/).length : 0;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,10 +39,10 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-7">
-      <div className="space-y-4">
-        <label htmlFor="decision" className="block font-mono text-xl text-cyan-200">
-          What decision are you considering?
+    <form onSubmit={handleSubmit}>
+      <div className="terminal-window p-5">
+        <label htmlFor="decision" className="terminal-header mb-4 block">
+          [DECISION_QUERY]&gt; What decision are you considering?
         </label>
         <textarea
           id="decision"
@@ -51,18 +52,24 @@ export function DecisionForm({ onSubmit, isLoading }: DecisionFormProps) {
           placeholder={sampleDecision}
           rows={6}
           required
-          className="terminal-input min-h-52 w-full resize-y rounded-xl border border-cyan-400/40 bg-zinc-950 px-4 py-4 text-emerald-100 outline-none transition focus:border-emerald-300 focus:ring-2 focus:ring-emerald-300/20"
+          className="terminal-input w-full border-0 bg-transparent outline-none"
         />
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
         <button
           type="submit"
           disabled={isLoading}
-          className="group rounded-2xl border-2 border-emerald-300 bg-black px-10 py-4 font-mono text-lg font-bold uppercase tracking-[0.18em] text-emerald-300 transition hover:bg-emerald-300/15 hover:text-white disabled:cursor-not-allowed disabled:border-zinc-600 disabled:text-zinc-500 sm:px-16"
+          className="btn-critique bg-transparent px-10 py-4 uppercase transition disabled:cursor-not-allowed disabled:border-zinc-600 disabled:text-zinc-500 disabled:shadow-none"
         >
           {isLoading ? "Critiquing..." : "Critique"}
         </button>
+
+        <div className="text-center text-sm leading-6 text-zinc-500 sm:text-right">
+          Word count: <span className="text-cyan-300">{wordCount}</span><br />
+          Grammar check: <span className="text-cyan-300">Confirmed</span><br />
+          Critique engine: <span className="text-cyan-300">Preliminary Alpha (Ready)</span>
+        </div>
       </div>
     </form>
   );

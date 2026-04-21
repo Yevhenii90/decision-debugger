@@ -62,21 +62,23 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col justify-center gap-8 px-4 py-8 sm:px-6 sm:py-12">
-      <header className="space-y-3 text-center">
-        <h1 className="pixel-title">
-          Decision Debugger
-        </h1>
-        <p className="font-mono text-sm uppercase tracking-[0.28em] text-purple-300 sm:text-base">
-          AI-powered decision critique
-        </p>
-      </header>
+    <main className="mx-auto flex min-h-screen w-full flex-col items-center justify-center gap-8 px-4 py-8 sm:px-6 sm:py-12">
+      <section className="app-container p-6 sm:p-10">
+        <header className="text-center">
+          <h1 className="pixel-title">
+            Decision Debugger
+          </h1>
+        </header>
 
-      <section className="cyber-panel scanline rounded-2xl p-5 sm:p-8">
         <DecisionForm
           onSubmit={handleAnalyze}
           isLoading={isLoading}
         />
+
+        <div className="footer-status mt-8 flex flex-col justify-between gap-2 pt-4 text-xs sm:flex-row">
+          <div>System: Decision Analysis Harmony v1.2</div>
+          <div>Status: {isLoading ? "Critiquing..." : "Waiting for input..."}</div>
+        </div>
       </section>
 
       <AnalysisResult result={result} isLoading={isLoading} error={error} />
