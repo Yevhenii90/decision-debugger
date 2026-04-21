@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnalysisResult } from "@/components/AnalysisResult";
 import { DecisionForm } from "@/components/DecisionForm";
 import {
@@ -15,10 +15,57 @@ type AnalyzeInput = {
   mode: AnalysisMode;
 };
 
+const pipelineStages = [
+  "Awaiting decision",
+  "Stress-testing logic",
+  "Scanning hidden risks",
+  "Building critique",
+  "Critique ready",
+] as const;
+
 export default function Home() {
   const [result, setResult] = useState<AnalysisResultType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [pipelineStep, setPipelineStep] = useState(0);
+
+  useEffect(() => {
+    if (!isLoading) {
+      return;
+    }
+
+    const id = window.setInterval(() => {
+      setPipelineStep((step) => Math.min(step + 1, 3));
+    }, 900);
+
+    return () => window.clearInterval(id);
+  }, [isLoading]);
+
+  const activePipelineStep = error
+    ? 3
+    : result && !isLoading
+      ? 4
+      : isLoading
+        ? pipelineStep
+        : 0;
+  const pipelineProgress = error
+    ? 100
+    : activePipelineStep === 0
+      ? 14
+      : activePipelineStep === 1
+        ? 38
+        : activePipelineStep === 2
+          ? 64
+          : activePipelineStep === 3
+            ? 86
+            : 100;
+  const pipelineStatus = error
+    ? "REVIEW FAILED"
+    : isLoading
+      ? "CRITIQUING"
+      : result
+        ? "READY"
+        : "STANDBY";
 
   async function handleAnalyze(input: AnalyzeInput) {
     if (!input.decision) {
@@ -28,6 +75,8 @@ export default function Home() {
 
     setIsLoading(true);
     setError(null);
+    setResult(null);
+    setPipelineStep(1);
 
     try {
       const response = await fetch("/api/analyze", {
@@ -97,14 +146,54 @@ export default function Home() {
               </ul>
 
               <div className="mt-12 border-t border-zinc-700 pt-6">
-                <div className="mb-2 flex justify-between text-xs">
-                  <span className="text-emerald-400">SYSTEM ONLINE</span>
-                  <span className="text-emerald-400">
-                    {isLoading ? "PROCESSING" : "READY"}
+                <div className="mb-3 flex justify-between text-xs uppercase tracking-[0.12em]">
+                  <span className={error ? "text-pink-400" : "text-emerald-400"}>
+                    Critique pipeline
+                  </span>
+                  <span className={error ? "text-pink-400" : "text-emerald-400"}>
+                    {pipelineStatus}
                   </span>
                 </div>
-                <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
-                  <div className="h-full w-[98%] bg-gradient-to-r from-emerald-400 to-cyan-400" />
+
+                <ol className="space-y-2 text-xs text-zinc-500">
+                  {pipelineStages.map((stage, index) => (
+                    <li
+                      key={stage}
+                      className={
+                        index === activePipelineStep
+                          ? error
+                            ? "text-pink-300"
+                            : "text-cyan-300"
+                          : index < activePipelineStep
+                            ? "text-emerald-400"
+                            : "text-zinc-600"
+                      }
+                    >
+                      {index < activePipelineStep ? "✓" : index === activePipelineStep ? ">" : "·"}{" "}
+                      {stage}
+                    </li>
+                  ))}
+                </ol>
+
+                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-zinc-800">
+                  <div
+                    className={
+                      error
+                        ? "h-full bg-pink-400 transition-all duration-500"
+                        : "h-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all duration-500"
+                    }
+                    style={{ width: `${pipelineProgress}%` }}
+                  />
+                </div>
+
+                <div className="mt-3 text-xs text-zinc-500">
+                  {error
+                    ? "The critique could not be completed. Try again."
+                    : isLoading
+                      ? "Finding weak spots before answering."
+                      : result
+                        ? "Critical response generated."
+                        : "Ready for a decision question."}
                 </div>
               </div>
             </div>
